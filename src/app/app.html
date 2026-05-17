@@ -1,0 +1,87 @@
+<h1>Gépkölcsönző</h1>
+
+<table border="1">
+  <tr>
+    <th>Név</th>
+    <th>Típus</th>
+    <th>Napi ár</th>
+    <th>Állapot</th>
+    <th>Művelet</th>
+  </tr>
+
+  <tr *ngFor="let gep of gepek">
+    <td>{{ gep.nev }}</td>
+    <td>{{ gep.tipus }}</td>
+    <td>{{ gep.napiAr }} Ft</td>
+
+    <td>
+      <span *ngIf="gep.elerheto">
+        Elérhető
+      </span>
+
+      <span *ngIf="!gep.elerheto">
+        Kikölcsönözve
+      </span>
+    </td>
+
+    <td>
+
+      <button
+        *ngIf="gep.elerheto"
+        (click)="kivalaszt(gep)">
+
+        Kiválaszt
+
+      </button>
+
+      <button
+        *ngIf="!gep.elerheto"
+        (click)="visszahoz(gep)">
+
+        Visszahoz
+
+      </button>
+
+    </td>
+  </tr>
+</table>
+
+<div *ngIf="kivalasztottGep" class="doboz">
+
+  <h2>Kölcsönzés</h2>
+
+  <p>Kiválasztott gép: {{ kivalasztottGep.nev }}</p>
+
+  <label>Név:</label><br>
+<input
+  type="text"
+  [(ngModel)]="nev"
+  placeholder="Kötelező megadni">
+<br><br>
+
+<label>Telefonszám:</label><br>
+<input
+  type="text"
+  [(ngModel)]="telefon"
+  placeholder="Kötelező megadni">
+<br><br>
+
+  <label>Email:</label><br>
+  <input type="email" [(ngModel)]="email">
+  <br><br>
+
+  <label>Napok száma:</label><br>
+  <input type="number" [(ngModel)]="napok" min="1">
+  <br><br>
+
+  <p>Végösszeg: {{ vegosszeg() }} Ft</p>
+
+  <button
+    [disabled]="nev.trim() === '' || telefon.trim() === ''"
+    (click)="kolcsonoz()">
+
+    Kölcsönzés
+
+  </button>
+
+</div>
